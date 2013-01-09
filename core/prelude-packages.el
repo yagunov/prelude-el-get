@@ -32,45 +32,67 @@
 ;; Boston, MA 02110-1301, USA.
 
 ;;; Code:
-(require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
-;; set package-user-dir to be relative to Prelude install path
-(setq package-user-dir (expand-file-name "elpa" prelude-dir))
-(package-initialize)
 
-;; required because of a package.el bug
-(setq url-http-attempt-keepalives nil)
+;; put el-get into Prelude's directory
+(setq el-get-dir (file-name-as-directory (expand-file-name "el-get" prelude-dir)))
+(add-to-list 'load-path (file-name-as-directory (expand-file-name "el-get" el-get-dir)))
+;; bootstrap el-get (version from the master branch)
+(unless (require 'el-get nil t)
+  (with-current-buffer
+      (url-retrieve-synchronously "https://raw.github.com/dimitri/el-get/master/el-get-install.el")
+    (let (el-get-master-branch)
+      (end-of-buffer)
+      (eval-print-last-sexp)))
+  (require 'el-get))
+
+;; additional recipes
+(setq el-get-sources
+      '(
+        (:name ack-and-a-half
+               :description "Yet another front-end for ack."
+               :type github :pkgname "jhelwig/ack-and-a-half")
+        ;; ELPA version does not require latex to be installed
+        (:name auctex :type elpa :autoloads nil)
+        (:name exec-path-from-shell
+               :description "A GNU Emacs library to setup environment variables from the user's shell."
+               :type github :pkgname "purcell/exec-path-from-shell")
+        (:name erlang :type elpa)
+        (:name flycheck
+               :description "Flymake done right."
+               :type github :pkgname "lunaryorn/flycheck")
+        (:name melpa :type elpa)
+        (:name package
+               :after (progn
+                        (add-to-list 'package-archives
+                                     '("melpa" . "http://melpa.milkbox.net/packages/") t)
+                        ;; required because of a package.el bug
+                        (setq url-http-attempt-keepalives nil)))
+        (:name projectile
+               :description "Manage and navigate projects in Emacs easily."
+               :type github :pkgname "bbatsov/projectile")
+        (:name ruby-tools
+               :description "Collection of handy functions for ruby-mode."
+               :type github :pkgname "rejeep/ruby-tools")
+        (:name scala-mode2
+               :description "A new scala-mode for emacs."
+               :type github :pkgname "hvesalai/scala-mode2")
+        )
+      )
 
 (defvar prelude-packages
   '(ack-and-a-half elisp-slime-nav exec-path-from-shell expand-region
                    flycheck gist
-                   guru-mode helm helm-projectile magit magithub melpa
-                   rainbow-mode solarized-theme volatile-highlights yasnippet
-                   zenburn-theme)
+                   guru-mode helm magit magithub melpa projectile
+                   rainbow-mode s volatile-highlights yasnippet)
   "A list of packages to ensure are installed at launch.")
 
-(defun prelude-packages-installed-p ()
-  (-all? #'package-installed-p prelude-packages))
-
-(defun prelude-install-packages ()
-  (unless (prelude-packages-installed-p)
-    ;; check for new packages (package versions)
-    (message "%s" "Emacs Prelude is now refreshing its package database...")
-    (package-refresh-contents)
-    (message "%s" " done.")
-    ;; install the missing packages
-    (-each
-     (-reject #'package-installed-p prelude-packages)
-     #'package-install)))
-
-(prelude-install-packages)
+(el-get 'sync prelude-packages)
 
 (defmacro prelude-auto-install (extension package mode)
   `(add-to-list 'auto-mode-alist
                 `(,extension . (lambda ()
-                                 (unless (package-installed-p ',package)
-                                   (package-install ',package))
+                                 (unless (el-get-package-is-installed ',package)
+                                   (el-get 'sync '(,package)))
                                  (,mode)))))
 
 (defvar prelude-auto-install-alist
@@ -96,20 +118,21 @@
 
 ;; markdown-mode doesn't have autoloads for the auto-mode-alist
 ;; so we add them manually if it's already installed
-(when (package-installed-p 'markdown-mode)
+(when (el-get-package-is-installed 'markdown-mode)
   (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
   (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode)))
 
 (-each prelude-auto-install-alist
-  (lambda (entry)
-    (let ((extension (car entry))
-          (package (cadr entry))
-          (mode (cadr (cdr entry))))
-      (unless (package-installed-p package)
-        (prelude-auto-install extension package mode)))))
+       (lambda (entry)
+         (let ((extension (car entry))
+               (package (cadr entry))
+               (mode (cadr (cdr entry))))
+           (unless (el-get-package-is-installed package)
+             (prelude-auto-install extension package mode)))))
 
 (defun prelude-ensure-module-deps (packages)
-  (-each (-remove #'package-installed-p packages) #'package-install))
+  (el-get 'sync packages))
 
 (provide 'prelude-packages)
+
 ;;; prelude-packages.el ends here

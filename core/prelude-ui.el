@@ -11,8 +11,8 @@
 
 ;;; Commentary:
 
-;; We dispense with most of the point and click UI, reduce the startup noise,
-;; configure smooth scolling and a nice theme that's easy on the eyes (zenburn).
+;; We dispense with most of the point and click UI, reduce the startup
+;; noise and configure smooth scolling.
 
 ;;; License:
 
@@ -93,9 +93,6 @@
       '("" invocation-name " Prelude - " (:eval (if (buffer-file-name)
                                             (abbreviate-file-name (buffer-file-name))
                                           "%b"))))
-
-;; use zenburn as the default theme
-(load-theme 'zenburn t)
 
 (provide 'prelude-ui)
 ;;; prelude-ui.el ends here
