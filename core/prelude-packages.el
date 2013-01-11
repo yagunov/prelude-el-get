@@ -36,6 +36,8 @@
 ;; put el-get into Prelude's directory
 (setq el-get-dir (file-name-as-directory (expand-file-name "el-get" prelude-dir)))
 (add-to-list 'load-path (file-name-as-directory (expand-file-name "el-get" el-get-dir)))
+;; fetch only latest version from git repositories
+(setq el-get-git-shallow-clone t)
 ;; bootstrap el-get (version from the master branch)
 (unless (require 'el-get nil t)
   (with-current-buffer
