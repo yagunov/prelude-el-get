@@ -80,10 +80,10 @@
       )
 
 (defvar prelude-packages
-  '(ack-and-a-half elisp-slime-nav exec-path-from-shell expand-region
-                   flycheck gist
-                   guru-mode helm magit magithub melpa projectile
-                   rainbow-mode s volatile-highlights yasnippet)
+  '(ace-jump-mode ack-and-a-half elisp-slime-nav exec-path-from-shell
+                  expand-region flycheck gist
+                  guru-mode helm magit magithub melpa projectile
+                  rainbow-mode s volatile-highlights yasnippet)
   "A list of packages to ensure are installed at launch.")
 
 (el-get 'sync prelude-packages)
