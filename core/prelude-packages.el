@@ -73,6 +73,9 @@
         (:name ruby-tools
                :description "Collection of handy functions for ruby-mode."
                :type github :pkgname "rejeep/ruby-tools")
+	(:name undo-tree
+	       :description "Treat undo history as a tree"
+	       :type elpa)
         (:name scala-mode2
                :description "A new scala-mode for emacs."
                :type github :pkgname "hvesalai/scala-mode2")
@@ -83,7 +86,7 @@
   '(ace-jump-mode ack-and-a-half elisp-slime-nav exec-path-from-shell
                   expand-region flycheck gist
                   guru-mode helm magit magithub melpa projectile
-                  rainbow-mode s volatile-highlights yasnippet)
+                  rainbow-mode undo-tree s volatile-highlights yasnippet)
   "A list of packages to ensure are installed at launch.")
 
 (el-get 'sync prelude-packages)
