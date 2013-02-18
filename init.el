@@ -45,6 +45,8 @@
   "Users of Emacs Prelude are encouraged to keep their personal configuration
 changes in this directory. All Emacs Lisp files there are loaded automatically
 by Prelude.")
+(defvar prelude-personal-init (expand-file-name "init.el" prelude-personal-dir)
+  "Initial file of user configuration.")
 (defvar prelude-vendor-dir (expand-file-name "vendor" prelude-dir)
   "This directory house Emacs Lisp packages that are not yet available in
 ELPA (or MELPA).")
@@ -99,9 +101,9 @@ Emacs load path."
 ;; config changes made through the customize UI will be store here
 (setq custom-file (expand-file-name "custom.el" prelude-personal-dir))
 
-;; load the personal settings (this includes `custom-file')
-(when (file-exists-p prelude-personal-dir)
-  (mapc 'load (directory-files prelude-personal-dir 't "^[^#].*el$")))
+;; load the personal settings
+(when (file-exists-p prelude-personal-init) (load prelude-personal-init))
+(when (file-exists-p custom-file) (load custom-file))
 
 (message "Prelude is ready to do thy bidding, Master %s!" (getenv "USER"))
 
