@@ -58,6 +58,11 @@
   :type 'boolean
   :group 'prelude)
 
+(defcustom prelude-flycheck t
+  "Non-nil values enable Prelude's flycheck support."
+  :type 'boolean
+  :group 'prelude)
+
 ;; Death to the tabs!  However, tabs historically indent to the next
 ;; 8-character offset; specifying anything else will cause *mass*
 ;; confusion, as it will change the appearance of every existing file.
