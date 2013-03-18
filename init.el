@@ -1,6 +1,6 @@
 ;;; init.el --- Prelude's configuration entry point.
 ;;
-;; Copyright (c) 2011 Bozhidar Batsov
+;; Copyright (c) 2011, 2013 Bozhidar Batsov
 ;;
 ;; Author: Bozhidar Batsov <bozhidar@batsov.com>
 ;; URL: http://batsov.com/prelude
@@ -93,8 +93,6 @@ by Prelude.")
   (require 'prelude-osx))
 
 ;; the modules
-(require 'prelude-programming)
-
 (when (file-exists-p prelude-modules-file)
   (load prelude-modules-file))
 
@@ -102,8 +100,10 @@ by Prelude.")
 (setq custom-file (expand-file-name "custom.el" prelude-personal-dir))
 
 ;; load the personal settings
-(when (file-exists-p prelude-personal-init) (load prelude-personal-init))
-(when (file-exists-p custom-file) (load custom-file))
+(when (file-exists-p prelude-personal-dir)
+  (message "Loading personal configuration files in %s..." prelude-personal-dir)
+  (when (file-exists-p prelude-personal-init) (load prelude-personal-init))
+  (when (file-exists-p custom-file) (load custom-file)))
 
 (message "Prelude is ready to do thy bidding, Master %s!" (getenv "USER"))
 

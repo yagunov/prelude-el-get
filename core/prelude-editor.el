@@ -103,6 +103,9 @@
 ;; smart pairing for all
 (electric-pair-mode t)
 
+;; diminish keeps the modeline tidy
+(require 'diminish)
+
 ;; meaningful names for buffers with the same name
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
@@ -111,12 +114,13 @@
 (setq uniquify-ignore-buffers-re "^\\*") ; don't muck with special buffers
 
 ;; saveplace remembers your location in a file when saving files
+(require 'saveplace)
 (setq save-place-file (expand-file-name "saveplace" prelude-savefile-dir))
 ;; activate it for all buffers
 (setq-default save-place t)
-(require 'saveplace)
 
 ;; savehist keeps track of some history
+(require 'savehist)
 (setq savehist-additional-variables
       ;; search entries
       '(search ring regexp-search-ring)
@@ -124,21 +128,14 @@
       savehist-autosave-interval 60
       ;; keep the home clean
       savehist-file (expand-file-name "savehist" prelude-savefile-dir))
-(savehist-mode t)
+(savehist-mode +1)
 
 ;; save recent files
+(require 'recentf)
 (setq recentf-save-file (expand-file-name "recentf" prelude-savefile-dir)
       recentf-max-saved-items 200
       recentf-max-menu-items 15)
-(recentf-mode t)
-
-;; time-stamps
-;; when there's "Time-stamp: <>" in the first 10 lines of the file
-(setq time-stamp-active t
-      ;; check first 10 buffer lines for Time-stamp: <>
-      time-stamp-line-limit 10
-      time-stamp-format "%04y-%02m-%02d %02H:%02M:%02S (%u)") ; date format
-(add-hook 'write-file-hooks 'time-stamp) ; update when saving
+(recentf-mode +1)
 
 ;; use shift + arrow keys to switch between visible buffers
 (require 'windmove)
@@ -168,8 +165,9 @@
 (add-hook 'mouse-leave-buffer-hook 'prelude-auto-save-command)
 
 ;; show-paren-mode: subtle highlighting of matching parens (global-mode)
-(show-paren-mode +1)
+(require 'paren)
 (setq show-paren-style 'parenthesis)
+(show-paren-mode +1)
 
 ;; highlight the current line
 (global-hl-line-mode +1)
@@ -201,7 +199,7 @@
 (setq tramp-default-method "ssh")
 
 ;; ido-mode
-(ido-mode t)
+(require 'ido)
 (setq ido-enable-prefix nil
       ido-enable-flex-matching t
       ido-create-new-buffer 'always
@@ -209,6 +207,7 @@
       ido-max-prospects 10
       ido-save-directory-list-file (expand-file-name "ido.hist" prelude-savefile-dir)
       ido-default-file-method 'selected-window)
+(ido-mode +1)
 
 ;; auto-completion in minibuffer
 (icomplete-mode +1)
@@ -216,9 +215,9 @@
 (set-default 'imenu-auto-rescan t)
 
 ;; flyspell-mode does spell-checking on the fly as you type
+(require 'flyspell)
 (setq ispell-program-name "aspell" ; use aspell instead of ispell
       ispell-extra-args '("--sug-mode=ultra"))
-(autoload 'flyspell-mode "flyspell" "On-the-fly spelling checker." t)
 
 (defun prelude-enable-flyspell ()
   (when (and prelude-flyspell (executable-find ispell-program-name))
@@ -245,6 +244,7 @@
 (require 'expand-region)
 
 ;; bookmarks
+(require 'bookmark)
 (setq bookmark-default-file (expand-file-name "bookmarks" prelude-savefile-dir)
       bookmark-save-flag 1)
 
@@ -290,6 +290,7 @@
 (put 'dired-find-alternate-file 'disabled nil)
 
 ;; ediff - don't start another frame
+(require 'ediff)
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
 ;; clean up obsolete buffers automatically
@@ -341,6 +342,7 @@ indent yanked text (with prefix arg don't indent)."
           'executable-make-buffer-file-executable-if-script-p)
 
 ;; whitespace-mode config
+(require 'whitespace)
 (setq whitespace-line-column 80) ;; limit line length
 (setq whitespace-style '(face tabs empty trailing lines-tail))
 

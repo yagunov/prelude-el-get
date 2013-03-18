@@ -1,17 +1,14 @@
 Emacs Prelude
 =============
 
-Emacs is probably the best text editor in the world. However, the
-process of coming up with a useful Emacs configuration is long and
-difficult. It's this process that separates you from truly taking
-advantage of Emacs's power. I like to refer to this process as the
-**Prelude**. **Emacs Prelude** has the goal to ease the initial Emacs
-setup process and to provide you with a much more powerful and
-productive experience than the one you get out of the box. By using
-**Emacs Prelude** you're basically getting a *"Get me out of the
-Prelude, I just want to use Emacs"* card.
+Prelude is an Emacs distribution that aims to enhance the default
+Emacs experience.  Prelude alters a lot of the default settings,
+bundles a plethora of additional packages and adds its own core
+library to the mix. The final product offers an easy to use Emacs
+configuration for Emacs newcomers and lots of additional power for
+Emacs power users.
 
-Emacs Prelude is compatible **ONLY with GNU Emacs 24.x**.
+Prelude is compatible **ONLY with GNU Emacs 24.x**.
 
 ## Fast Forward
 
@@ -101,6 +98,8 @@ $ git pull
 The `path/to/prelude/installation` is usually `~/.emacs.d` (at least
 on Unix systems).
 
+Alternatively you can run <kbd>M-x prelude-update</kbd> from Emacs itself.
+
 It's generally a good idea to stop Emacs before you do the update. The
 next time Prelude starts it will install any new dependencies (if
 there are such).
@@ -137,6 +136,9 @@ By default most of the modules that ship with Prelude are not loaded.
 ```
 
 You'll need to adjust your `prelude-modules.el` file once the installation is done.
+
+After you've uncommented a module you should either restart Emacs or evaluate the module
+`require` expression with <kbd>C-x C-e</kbd>.
 
 ## Running
 

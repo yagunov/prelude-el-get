@@ -32,9 +32,6 @@
 
 ;;; Code:
 
-;; You know, like Readline.
-(global-set-key (kbd "C-M-h") 'backward-kill-word)
-
 ;; Align your code in a pretty way.
 (global-set-key (kbd "C-x \\") 'align-regexp)
 
@@ -67,6 +64,11 @@
 
 ;; A complementary binding to the apropos-command (C-h a)
 (define-key 'help-command "A" 'apropos)
+
+(global-set-key (kbd "C-h C-f") 'find-function)
+(global-set-key (kbd "C-h C-k") 'find-function-on-key)
+(global-set-key (kbd "C-h C-v") 'find-variable)
+(global-set-key (kbd "C-h C-l") 'find-library)
 
 ;; a complement to the zap-to-char command, that doesn't eat up the target character
 (autoload 'zap-up-to-char "misc" "Kill up to, but not including ARGth occurrence of CHAR.")
