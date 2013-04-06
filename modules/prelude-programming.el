@@ -120,7 +120,8 @@
   (when prelude-flycheck
     (flycheck-mode +1))
   (prelude-local-comment-auto-fill)
-  (prelude-add-watchwords))
+  (unless (eq major-mode 'org-mode)
+    (prelude-add-watchwords)))
 
 (setq prelude-prog-mode-hook 'prelude-prog-mode-defaults)
 
