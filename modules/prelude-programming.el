@@ -117,8 +117,6 @@
   (when prelude-guru
     (guru-mode +1))
   (prelude-enable-whitespace)
-  (when prelude-flycheck
-    (flycheck-mode +1))
   (prelude-local-comment-auto-fill)
   (unless (eq major-mode 'org-mode)
     (prelude-add-watchwords)))
@@ -128,9 +126,10 @@
 (add-hook 'prog-mode-hook (lambda ()
                             (run-hooks 'prelude-prog-mode-hook)))
 
-(if (fboundp 'global-flycheck-mode)
-    (global-flycheck-mode +1)
-  (add-hook 'prog-mode-hook 'flycheck-mode))
+(when prelude-flycheck
+  (if (fboundp 'global-flycheck-mode)
+      (global-flycheck-mode +1)
+    (add-hook 'prog-mode-hook 'flycheck-mode)))
 
 (provide 'prelude-programming)
 ;;; prelude-programming.el ends here
