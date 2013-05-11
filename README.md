@@ -258,6 +258,16 @@ If you ever forget any of Projectile's keybindings just do a:
 
 <kbd>C-c p C-h</kbd>
 
+#### Key-chords
+
+Keybinding         | Description
+-------------------|----------------------------------------------
+<kbd>jj</kbd>      | Jump to the beginning of a word(`ace-jump-word-mode`)
+<kbd>jk</kbd>      | Jump to a character(`ace-jump-char-mode`)
+<kbd>jl</kbd>      | Jump to the beginning of a line(`ace-jump-line-mode`)
+<kbd>JJ</kbd>      | Jump back to previous buffer(`prelude-switch-to-previous-buffer`)
+<kbd>uu</kbd>      | View edits as a tree(`undo-tree-visualize`)
+
 ### Automatic package installation
 
 The default Prelude installation comes with a bare minimum of

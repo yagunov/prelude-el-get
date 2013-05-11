@@ -63,7 +63,8 @@
        ((overlayp position)
         (goto-char (overlay-start position)))
        (t
-        (goto-char position)))))
+        (goto-char position)))
+      (recenter)))
    ((listp symbol-list)
     (dolist (symbol symbol-list)
       (let (name position)
@@ -96,7 +97,7 @@
 
 ;; show the name of the current function definition in the modeline
 (require 'which-func)
-(setq which-func-modes t)
+(add-to-list 'which-func-modes 'ruby-mode)
 (which-function-mode 1)
 
 ;; in Emacs 24 programming major modes generally derive from a common

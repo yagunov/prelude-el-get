@@ -86,15 +86,20 @@
       )
 
 (defvar prelude-packages
-  '(ace-jump-mode ack-and-a-half diminish elisp-slime-nav expand-region flycheck
-                  gist git-commit-mode gitconfig-mode gitignore-mode
-                  guru-mode helm key-chord magit magithub melpa projectile
-                  rainbow-mode undo-tree s volatile-highlights yasnippet)
+  '(ace-jump-mode ack-and-a-half dash diminish elisp-slime-nav expand-region
+                  flycheck gist git-commit-mode gitconfig-mode gitignore-mode
+                  guru-mode helm ido-ubiquitous key-chord magit magithub melpa
+                  projectile rainbow-mode smex undo-tree s volatile-highlights
+                  yasnippet)
   "A list of packages to ensure are installed at launch.")
 
 (el-get 'sync prelude-packages)
 
+(require 'dash)
+
 (defmacro prelude-auto-install (extension package mode)
+  "When file with EXTENSION is opened triggers auto-install of PACKAGE.
+PACKAGE is installed only if not already present.  The file is opened in MODE."
   `(add-to-list 'auto-mode-alist
                 `(,extension . (lambda ()
                                  (unless (el-get-package-is-installed ',package)
@@ -105,8 +110,12 @@
   '(("\\.clj\\'" clojure-mode clojure-mode)
     ("\\.coffee\\'" coffee-mode coffee-mode)
     ("\\.css\\'" css-mode css-mode)
+    ("\\.csv\\'" csv-mode csv-mode)
+    ("\\.d\\'" d-mode d-mode)
+    ("\\.dart\\'" dart-mode dart-mode)
     ("\\.erl\\'" erlang erlang-mode)
     ("\\.feature\\'" feature-mode feature-mode)
+    ("\\.go\\'" go-mode go-mode)
     ("\\.groovy\\'" groovy-mode groovy-mode)
     ("\\.haml\\'" haml-mode haml-mode)
     ("\\.hs\\'" haskell-mode haskell-mode)
@@ -115,10 +124,13 @@
     ("\\.lua\\'" lua-mode lua-mode)
     ("\\.markdown\\'" markdown-mode markdown-mode)
     ("\\.md\\'" markdown-mode markdown-mode)
+    ("\\.ml\\'" tuareg tuareg-mode)
     ("\\.php\\'" php-mode php-mode)
     ("\\.sass\\'" sass-mode sass-mode)
     ("\\.scala\\'" scala-mode2 scala-mode)
     ("\\.scss\\'" scss-mode scss-mode)
+    ("\\.slim\\'" slim-mode slim-mode)
+    ("\\.textile\\'" textile-mode textile-mode)
     ("\\.yml\\'" yaml-mode yaml-mode)))
 
 ;; markdown-mode doesn't have autoloads for the auto-mode-alist
@@ -139,5 +151,8 @@
   (el-get 'sync packages))
 
 (provide 'prelude-packages)
+;; Local Variables:
+;; byte-compile-warnings: (not cl-functions)
+;; End:
 
 ;;; prelude-packages.el ends here
