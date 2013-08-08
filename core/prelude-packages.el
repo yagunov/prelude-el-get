@@ -48,6 +48,11 @@
   (require 'el-get))
 
 (require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+;; required because of a package.el bug
+(setq url-http-attempt-keepalives nil)
+(package-initialize)
 
 ;; additional recipes
 (setq el-get-sources
@@ -61,6 +66,7 @@
         (:name gitignore-mode
                :description "Major mode for editing .gitignore files"
                :type elpa)
+        (:name grizzl :type elpa)
         (:name exec-path-from-shell
                :description "A GNU Emacs library to setup environment variables from the user's shell."
                :type github :pkgname "purcell/exec-path-from-shell")
@@ -68,13 +74,7 @@
         (:name flycheck
                :description "Flymake done right."
                :type github :pkgname "lunaryorn/flycheck")
-        (:name melpa :type elpa)
-        (:name package
-               :after (progn
-                        (add-to-list 'package-archives
-                                     '("melpa" . "http://melpa.milkbox.net/packages/") t)
-                        ;; required because of a package.el bug
-                        (setq url-http-attempt-keepalives nil)))
+        (:name flx-ido :type elpa)
         (:name projectile
                :description "Manage and navigate projects in Emacs easily."
                :type github :pkgname "bbatsov/projectile")
@@ -92,10 +92,10 @@
 
 (defvar prelude-packages
   '(ace-jump-mode ack-and-a-half dash diminish elisp-slime-nav expand-region
-                  flycheck gist git-commit-mode gitconfig-mode gitignore-mode
-                  guru-mode helm ido-ubiquitous key-chord magit magithub melpa
-                  projectile rainbow-mode smex undo-tree s volatile-highlights
-                  yasnippet)
+                  flx flx-ido flycheck gist git-commit-mode gitconfig-mode
+                  gitignore-mode grizzl guru-mode helm ido-ubiquitous key-chord
+		  magit magithub projectile rainbow-mode smartparens smex
+		  undo-tree s volatile-highlights yasnippet)
   "A list of packages to ensure are installed at launch.")
 
 (el-get 'sync prelude-packages)
@@ -131,6 +131,7 @@ PACKAGE is installed only if not already present.  The file is opened in MODE."
     ("\\.md\\'" markdown-mode markdown-mode)
     ("\\.ml\\'" tuareg tuareg-mode)
     ("\\.php\\'" php-mode php-mode)
+    ("PKGBUILD\\'" pkgbuild-mode pkgbuild-mode)
     ("\\.sass\\'" sass-mode sass-mode)
     ("\\.scala\\'" scala-mode2 scala-mode)
     ("\\.scss\\'" scss-mode scss-mode)
@@ -143,6 +144,9 @@ PACKAGE is installed only if not already present.  The file is opened in MODE."
 (when (el-get-package-is-installed 'markdown-mode)
   (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
   (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode)))
+
+(when (package-installed-p 'pkgbuild-mode)
+  (add-to-list 'auto-mode-alist '("PKGBUILD\\'" . pkgbuild-mode)))
 
 (-each prelude-auto-install-alist
        (lambda (entry)

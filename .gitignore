@@ -18,3 +18,4 @@ savefile/
 /prelude-modules.el
 personal/
 projectile-bookmarks.eld
+session*
