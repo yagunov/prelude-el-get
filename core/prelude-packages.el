@@ -47,15 +47,20 @@
       (eval-print-last-sexp)))
   (require 'el-get))
 
+(require 'package)
+
 ;; additional recipes
 (setq el-get-sources
       '(
         (:name ack-and-a-half
                :description "Yet another front-end for ack."
                :type github :pkgname "jhelwig/ack-and-a-half")
-	(:name gitignore-mode
-	       :description ""
-	       :type elpa)
+        (:name gitconfig-mode
+               :description "Major mode for editing .gitconfig files"
+               :type elpa)
+        (:name gitignore-mode
+               :description "Major mode for editing .gitignore files"
+               :type elpa)
         (:name exec-path-from-shell
                :description "A GNU Emacs library to setup environment variables from the user's shell."
                :type github :pkgname "purcell/exec-path-from-shell")
@@ -76,9 +81,9 @@
         (:name ruby-tools
                :description "Collection of handy functions for ruby-mode."
                :type github :pkgname "rejeep/ruby-tools")
-	(:name undo-tree
-	       :description "Treat undo history as a tree"
-	       :type elpa)
+        (:name undo-tree
+               :description "Treat undo history as a tree"
+               :type elpa)
         (:name scala-mode2
                :description "A new scala-mode for emacs."
                :type github :pkgname "hvesalai/scala-mode2")
