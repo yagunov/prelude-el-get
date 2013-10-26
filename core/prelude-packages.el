@@ -91,16 +91,26 @@
       )
 
 (defvar prelude-packages
-  '(ace-jump-mode ack-and-a-half dash diminish elisp-slime-nav expand-region
-                  flx flx-ido flycheck gist git-commit-mode gitconfig-mode
+  '(ace-jump-mode ack-and-a-half anzu dash diminish elisp-slime-nav expand-region
+                  epl flx flx-ido flycheck gist git-commit-mode gitconfig-mode
                   gitignore-mode grizzl guru-mode helm ido-ubiquitous key-chord
-		  magit magithub projectile rainbow-mode smartparens smex
-		  undo-tree s volatile-highlights yasnippet)
+                  magit move-text magithub projectile rainbow-mode smartparens smex
+                  undo-tree s volatile-highlights yasnippet)
   "A list of packages to ensure are installed at launch.")
 
 (el-get 'sync prelude-packages)
 
 (require 'dash)
+
+(defun prelude-list-foreign-packages ()
+  "Browse third-party packages not bundled with Prelude.
+
+Behaves similarly to `package-list-packages', but shows only the packages that
+are installed and are not in `prelude-packages'.  Useful for
+removing unwanted packages."
+  (interactive)
+  (package-show-package-list
+   (set-difference package-activated-list prelude-packages)))
 
 (defmacro prelude-auto-install (extension package mode)
   "When file with EXTENSION is opened triggers auto-install of PACKAGE.
@@ -130,6 +140,7 @@ PACKAGE is installed only if not already present.  The file is opened in MODE."
     ("\\.markdown\\'" markdown-mode markdown-mode)
     ("\\.md\\'" markdown-mode markdown-mode)
     ("\\.ml\\'" tuareg tuareg-mode)
+    ("\\.pp\\'" puppet-mode puppet-mode)
     ("\\.php\\'" php-mode php-mode)
     ("PKGBUILD\\'" pkgbuild-mode pkgbuild-mode)
     ("\\.sass\\'" sass-mode sass-mode)

@@ -110,7 +110,17 @@ Will only occur if prelude-whitespace is also enabled."
 (require 'smartparens-config)
 (setq sp-base-key-bindings 'paredit)
 (setq sp-autoskip-closing-pair 'always)
-(smartparens-global-mode +1)
+(setq sp-hybrid-kill-entire-symbol nil)
+(sp-use-paredit-bindings)
+
+(show-smartparens-global-mode +1)
+
+(define-key prog-mode-map (kbd "M-(") (lambda (&optional arg) (interactive "P") (sp-wrap-with-pair "(")))
+(define-key prog-mode-map (kbd "M-[") (lambda (&optional arg) (interactive "P") (sp-wrap-with-pair "[")))
+(define-key prog-mode-map (kbd "M-\"") (lambda (&optional arg) (interactive "P") (sp-wrap-with-pair "\"")))
+
+;; disable annoying blink-matching-paren
+(setq blink-matching-paren nil)
 
 ;; diminish keeps the modeline tidy
 (require 'diminish)
@@ -176,11 +186,6 @@ The body of the advice is in BODY."
                  (prelude-auto-save-command))
 
 (add-hook 'mouse-leave-buffer-hook 'prelude-auto-save-command)
-
-;; show-paren-mode: subtle highlighting of matching parens (global-mode)
-(require 'paren)
-(setq show-paren-style 'parenthesis)
-(show-paren-mode +1)
 
 ;; highlight the current line
 (global-hl-line-mode +1)
@@ -288,6 +293,11 @@ The body of the advice is in BODY."
 (setq projectile-cache-file (expand-file-name  "projectile.cache" prelude-savefile-dir))
 (projectile-global-mode t)
 (diminish 'projectile-mode "Prjl")
+
+;; anzu-mode enhances isearch by showing total matches and current match position
+(require 'anzu)
+(diminish 'anzu-mode)
+(global-anzu-mode)
 
 (require 'helm-misc)
 (require 'helm-projectile)
